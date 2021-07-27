@@ -4,15 +4,15 @@ from tinydb import TinyDB
 from scrapy.utils.log import configure_logging  
 configure_logging(install_root_handler = False) 
 import datetime
-import locale
+import pytz
 from logger import Logger
 
 # config logger
 logger = Logger("covid")
 
 # config date
-locale.setlocale(locale.LC_ALL, 'vi_VN')
-current=datetime.datetime.now()
+tz = pytz.timezone('Asia/Ho_Chi_Minh')
+current = datetime.now(tz)
 
 # config data
 db=TinyDB('db/data-%s.json' % current.strftime('%Y-%m-%d'))
