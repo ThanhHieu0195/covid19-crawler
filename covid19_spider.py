@@ -49,7 +49,7 @@ class Covid19Spider(Spider):
                 region = detailData[idx]
                 record_data=Selector(text=region).xpath('//td/text()').extract()
                 analytic['detail'].append({
-                    'region': int(record_data[0].replace('.', '')),
+                    'region': record_data[0],
                     'case_numbers': int(record_data[1].replace('.', '')),
                     'today': int(record_data[2].replace('.', '')),
                     'dead': int(record_data[3].replace('.', ''))
