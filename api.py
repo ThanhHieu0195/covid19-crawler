@@ -33,5 +33,5 @@ class CovidData(Resource):
 api.add_resource(CovidData, '/covid19')
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
-    # app.run(host='0.0.0.0', port=331, debug=True)
+    # app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=331, debug=True)
