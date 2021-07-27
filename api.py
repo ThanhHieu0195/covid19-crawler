@@ -21,13 +21,17 @@ class CovidData(Resource):
     def get(self):
         todayData = covid19Table.all()
         yesterdayData = covid19YesterdayTable.all()
-
+        detail=None
+        if 'detail' in todayData[-1]:
+            detail = todayData[-1]['detail']
         return {
             'case_numbers': todayData[-1]['case_numbers'],
-            'increase': todayData[-1]['case_numbers'] - yesterdayData[-1]['case_numbers']
+            'increase': todayData[-1]['case_numbers'] - yesterdayData[-1]['case_numbers'],
+            'details': detail
         }
 
 api.add_resource(CovidData, '/covid19')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5000, debug=True)
+    # app.run(host='0.0.0.0', port=331, debug=True)

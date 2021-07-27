@@ -3,7 +3,7 @@ import time
 import os
 
 print('Scheduler initialised')
-schedule.every(1).minutes.do(lambda: os.system('scrapy runspider covid.py'))
+schedule.every(1).minutes.do(lambda: os.system('scrapy runspider covid19_spider.py'))
 print('Next job is set to run at: ' + str(schedule.next_run()))
 
 while True:
