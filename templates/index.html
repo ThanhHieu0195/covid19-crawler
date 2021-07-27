@@ -24,29 +24,44 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+    <script src="/static/notify.js"></script>
     <script>
+        // $.notify("Hello World");
         (async function ($) {
-            const d = await $.get('/covid19')
-            console.log(d)
-            $('.js-numbercase').html(d.case_numbers)
-            $('.js-increase').html(d.increase)
+            previousData = null;
+            const fetchData = async function () {
+                const d = await $.get('/covid19');
+                console.log('start fetch data')
+                if (!previousData || previousData.case_numbers != d.case_numbers) {
+                    if (previousData) {
+                        $.notify("New update", "success");
+                    }
 
-            if (d.details) {
-                let arr = []
-                for (const r of d.details) {
-                    arr.push('<td>' + [
-                        `<span class="lb-info">${r.region}</span>`,
-                        `<span class="lb-text">${r.case_numbers}</span>`,
-                        `<span class="lb-warn">${r.today}</span>`,
-                        `<span class="lb-danger">${r.dead}</span>`,
-                    ].join('</td><td>') + '</td>');
+                    $('.js-numbercase').html(d.case_numbers)
+                    $('.js-increase').html(d.increase)
+                    if (d.details) {
+                        let arr = []
+                        for (const r of d.details) {
+                            arr.push('<td>' + [
+                                `<span class="lb-info">${r.region}</span>`,
+                                `<span class="lb-text">${r.case_numbers}</span>`,
+                                `<span class="lb-warn">${r.today}</span>`,
+                                `<span class="lb-danger">${r.dead}</span>`,
+                            ].join('</td><td>') + '</td>');
+                        }
+
+                        $('.js-detail').html('<tr><th>' + [
+                            'Khu vực', 'Tổng ca nhiễm', 'Hôm nay', 'Chết'
+                        ].join('</th><th>') + '</th></tr>' + '<tr>' + arr.join('</tr><tr>') + '</tr>');
+                    }
                 }
-
-                $('.js-detail').html('<tr><th>' + [
-                    'Khu vực', 'Tổng ca nhiễm', 'Hôm nay', 'Chết'
-                ].join('</th><th>') + '</th></tr>' + '<tr>' + arr.join('</tr><tr>') + '</tr>');
+                previousData = d;
             }
+
+            await fetchData();
+            setInterval(async function() {
+                await fetchData()
+            }, 5000);
         })(jQuery);
     </script>
 
