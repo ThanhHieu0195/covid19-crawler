@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container-main">
+            <label for="">Thống kê</label>
+
+            <p>Tổng ca nhiễm: <span class="js-numbercase"></span></p>
+            <p>Số ca nhiễm hôm nay: <span class="js-increase"></span></p>
+
+            <div class="wrap-detail">
+                Chi tiết:
+                <table class="js-detail"></table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+        (async function ($) {
+            const d = await $.get('/covid19')
+            console.log(d)
+            $('.js-numbercase').html(d.case_numbers)
+            $('.js-increase').html(d.increase)
+
+            if (d.details) {
+                let arr = []
+                for (const r of d.details) {
+                    arr.push('<td>' + [
+                        `<span class="lb-info">${r.region}</span>`,
+                        `<span class="lb-text">${r.case_numbers}</span>`,
+                        `<span class="lb-warn">${r.today}</span>`,
+                        `<span class="lb-danger">${r.dead}</span>`,
+                    ].join('</td><td>') + '</td>');
+                }
+
+                $('.js-detail').html('<tr><th>' + [
+                    'Khu vực', 'Tổng ca nhiễm', 'Hôm nay', 'Chết'
+                ].join('</th><th>') + '</th></tr>' + '<tr>' + arr.join('</tr><tr>') + '</tr>');
+            }
+        })(jQuery);
+    </script>
+
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .container-main {
+            width: 80%;
+        }
+
+        label {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* table */
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        /* end */
+        .lb-text {
+            padding: 5px 5px;
+            color: black;
+            border-radius: 2px;
+        }
+
+        .lb-info {
+            padding: 5px 5px;
+            color: blue;
+            border-radius: 2px;
+        }
+
+        .lb-danger {
+            padding: 5px 5px;
+            color: red;
+            border-radius: 2px;
+        }
+
+        .lb-warn {
+            padding: 5px 5px;
+            color: yellow;
+            border-radius: 2px;
+        }
+    </style>
+</body>
+
+</html>

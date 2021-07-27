@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, make_response
 from flask_restful import Api, Resource
 from tinydb import TinyDB, Query
 import pytz
@@ -30,8 +30,16 @@ class CovidData(Resource):
             'details': detail
         }
 
+
+class Home(Resource):
+    def get(self):
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('index.html'),200,headers)
+
+
 api.add_resource(CovidData, '/covid19')
+api.add_resource(Home, '/analytic')
 
 if __name__ == '__main__':
-    # app.run(port=5000, debug=True)
-    app.run(host='0.0.0.0', port=331, debug=True)
+    app.run(port=5000, debug=True)
+    # app.run(host='0.0.0.0', port=331, debug=True)
