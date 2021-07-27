@@ -24,6 +24,12 @@ class CovidSpider(scrapy.Spider):
 
     def parse(self, response):
         allData = response.xpath('//div[@class="row d-none d-block d-lg-none"]').xpath('//span/text()').extract()
+
+        data=covid19.all()
+        lastAnalytic=None
+
+        if data is not None:
+            lastAnalytic=data[-1]
         analytic={}
         logger.info("start process data")
         try:
@@ -39,6 +45,11 @@ class CovidSpider(scrapy.Spider):
             if 'case_numbers' in analytic:
                 analytic['time'] = int(current.strftime('%H%M'))
                 covid19.insert(analytic)
+                if lastAnalytic != None:
+                    if analytic['case_numbers'] != lastAnalytic['case_numbers']:
+                        self.pushNotice()
         except Exception as e:
             logger.error("Got error when parse data - reason=%s" % e.args[0])
-
+            
+    def pushNotice(self):
+        pass

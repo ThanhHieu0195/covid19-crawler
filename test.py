@@ -1,6 +1,5 @@
-import locale
+import pytz
+from datetime import datetime, timezone
+a = [1, 2 ,3 ,4 ,5 ,6]
 
-locale.setlocale(locale.LC_ALL, 'vi_VN')
-import datetime
-current=datetime.datetime.now()
-print(current)
+print(a)
