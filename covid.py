@@ -1,9 +1,8 @@
 import scrapy
-import datetime
 from tinydb import TinyDB
 from scrapy.utils.log import configure_logging  
 configure_logging(install_root_handler = False) 
-import datetime
+from datetime import datetime
 import pytz
 from logger import Logger
 
