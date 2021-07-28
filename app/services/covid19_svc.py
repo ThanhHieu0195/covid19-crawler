@@ -8,9 +8,15 @@ class Covid19Service(Resource):
         today_data = self.gettoday_data()
         yes_data = self.getYesData()
         detail=None
-        
-        if 'details' in today_data[-1]:
-            detail = today_data[-1]['details']
+        if len(today_data) == 0:
+            return  {
+                'case_numbers': 0,
+                'increase': 0,
+                'details': [],
+                'last_updated': None
+            }
+
+        detail = today_data[-1]['details']
         return {
             'case_numbers': today_data[-1]['case_numbers'],
             'increase': today_data[-1]['case_numbers'] - yes_data[-1]['case_numbers'],

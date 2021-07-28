@@ -38,9 +38,11 @@ function formatNumber(num) {
             $('.js-numbercase').html(formatNumber(d.case_numbers))
             $('.js-increase').html(formatNumber(d.increase))
 
-            let t = '' + d.last_updated
-            let seconds = /\d{2}$/.exec(t)[0]
-            $('.js-time').html(`cập nhật lúc: ${t.replace(seconds, '')}:${seconds}`)
+            if (d.last_updated) {
+                let t = '' + d.last_updated
+                let seconds = /\d{2}$/.exec(t)[0]
+                $('.js-time').html(`cập nhật lúc: ${t.replace(seconds, '')}:${seconds}`)
+            }
         }
         previousData = d;
     }

@@ -4,6 +4,10 @@ from scrapy.utils.log import configure_logging
 configure_logging(install_root_handler = False) 
 from datetime import datetime, timedelta
 import pytz
+import os 
+
+print(os.getcwd())
+
 from logger import Logger
 
 # config logger

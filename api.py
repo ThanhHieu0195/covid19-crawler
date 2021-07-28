@@ -1,7 +1,9 @@
 
 # internal services
 from app.configures import SpiderConfigurator, ApiConfiguration
-
-ApiConfiguration(__name__).run()
+from threading import Thread
 # handle schedule
-SpiderConfigurator().run()
+thread = Thread(target=SpiderConfigurator().run)
+thread.start()
+ApiConfiguration(__name__).run()
+

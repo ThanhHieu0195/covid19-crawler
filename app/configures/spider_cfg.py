@@ -3,9 +3,13 @@ import time
 import os
 
 class SpiderConfigurator():
-    time_run=0.2
-    path='crawler/covid19_spider.py'
+    time_run=1
+    path='covid19_spider.py'
     is_enabled=True
+
+
+    def __init__(self):
+        print('initial spider')
 
     def run(self):
         print('Scheduler initialised')
