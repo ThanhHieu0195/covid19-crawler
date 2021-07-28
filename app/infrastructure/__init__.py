@@ -1,0 +1,1 @@
+from .covid19_dal import Covid19Dal
