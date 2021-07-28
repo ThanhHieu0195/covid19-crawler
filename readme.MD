@@ -8,5 +8,5 @@ pip install -r requirements.txt
 
 ## How to run
 ```
-python3 main.py
+python3 api.py --port 331 --host=0.0.0.0
 ```
