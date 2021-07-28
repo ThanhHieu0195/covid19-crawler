@@ -1,15 +1,33 @@
-from flask import Flask, render_template, make_response
+from flask import Flask
 from flask_restful import Api
 from app.services import TemplateService, Covid19Service
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--host', type=str)
+parser.add_argument('--port', type=str)
+parser.add_argument('--debug', type=str)
+
+args = parser.parse_args()
+print(args)
+
+if args.host is None: host = '0.0.0.0'
+else: host = args.host
+
+if args.port is None: port = 331
+else: port = args.port
+
+if args.debug is None: debug = False
+else: debug = args.debug
 
 class ApiConfiguration():
     def __init__(self, name):
         self.app = Flask(name)
-        self.__register_api()
+        self.__register_api()   
 
     # public function
     def run(self):
-        self.app.run(port=5000, debug=True)
+        self.app.run(host=host, port=port, debug=debug)
 
 
     # internal methods
