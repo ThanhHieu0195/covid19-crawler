@@ -1,12 +1,12 @@
 from flask import Flask
 from flask_restful import Api
-from app.services import TemplateService, Covid19Service
+from app.services import TemplateService, Covid19Service, FCMService, StaticService
 import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--host', type=str)
-parser.add_argument('--port', type=str)
-parser.add_argument('--debug', type=str)
+parser.add_argument('--port', type=int)
+parser.add_argument('--debug', type=bool)
 
 args = parser.parse_args()
 print(args)
@@ -35,3 +35,5 @@ class ApiConfiguration():
         self.api = Api(self.app)
         self.api.add_resource(Covid19Service, '/covid19')
         self.api.add_resource(TemplateService, '/analytic')
+        self.api.add_resource(StaticService, '/<string:filename>.js', '/<string:filename>.json')
+        self.api.add_resource(FCMService, '/fcm')

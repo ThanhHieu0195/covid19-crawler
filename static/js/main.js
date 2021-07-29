@@ -48,10 +48,6 @@ function formatNumber(num) {
     }
 
     await fetchData();
-    setInterval(async function () {
-        await fetchData()
-    }, 5000);
-
     $('.js-search').on('keyup', function (e) {
         let v = $('.js-search').val().trim()
         if (v) {
@@ -63,4 +59,9 @@ function formatNumber(num) {
 
     const today = new Date()
     $('.js-today').html(`${today.toISOString().replace(/T(.*)/, '')}`)
+
+    $(document).on('fetch_data', async function() {
+        $.notify("New update", "success");
+        await fetchData();
+    })
 })(jQuery);

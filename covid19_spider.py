@@ -5,6 +5,7 @@ configure_logging(install_root_handler = False)
 from datetime import datetime, timedelta
 import pytz
 import os 
+from app.services.fcm_svc import FCMPush
 
 print(os.getcwd())
 
@@ -25,6 +26,7 @@ covid19=db.table('covid19')
 yesterday = current - timedelta(days=1)
 dbYesterday=TinyDB('db/data-%s.json' % yesterday.strftime('%Y-%m-%d'))
 covid19YesterdayTable=dbYesterday.table('covid19')
+fcm = FCMPush()
 
 class Covid19Spider(Spider):
     name='covid19'
@@ -33,7 +35,7 @@ class Covid19Spider(Spider):
     def parse(self, response):
         logger.info('started fetch data')
         detail_data = response.xpath('//div[@id="sailorTableArea"]').xpath('//tr').extract()
-        data=covid19.all()
+        today_data=covid19.all()
         yesterday_data=covid19YesterdayTable.all()
         last_analytic=None
 
@@ -66,8 +68,7 @@ class Covid19Spider(Spider):
             analytic['increase'] += numIncreases
             logger.info("finished take detail data")
 
-            
-            if last_analytic is None or last_analytic['case_numbers'] != analytic['case_numbers']:
+            if len(today_data) == 0 or today_data[-1]['case_numbers'] != analytic['case_numbers']:
                 analytic['time'] = int(current.strftime('%H%M'))
                 covid19.insert(analytic)
                 if last_analytic != None:
@@ -81,4 +82,8 @@ class Covid19Spider(Spider):
             logger.error("Got error when parse data - reason=%s" % e.args[0])
             
     def pushNotice(self):
-        pass
+        rs=fcm.pushNotifyNewUpdate()
+        if rs.isOk == True:
+            logger.info("pushed notice to clients")
+        else:
+            logger.error("failed when push notice to clients")

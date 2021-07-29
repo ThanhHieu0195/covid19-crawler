@@ -3,7 +3,7 @@ import time
 import os
 
 class SpiderConfigurator():
-    time_run=1
+    time_run=0.1
     path='covid19_spider.py'
     is_enabled=True
 
