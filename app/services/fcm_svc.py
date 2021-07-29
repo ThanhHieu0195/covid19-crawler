@@ -4,6 +4,10 @@ from firebase_admin import messaging
 from flask_restful import Resource,reqparse 
 import uuid
 
+cred=credentials.Certificate("./serviceAccountKey.json")
+admin = firebase_admin.initialize_app(cred)
+admin2 = firebase_admin.initialize_app(cred, name='covidweb')
+        
 class FCMService(Resource):
     def __init__(self):
         self.fcm=FCMPush()
@@ -22,9 +26,8 @@ class FCMPush():
     topic='topic'
     
     def __init__(self):
-        self.admin = firebase_admin.initialize_app(self.cred)
-        self.admin2 = firebase_admin.initialize_app(self.cred, name='covidweb')
-        
+        pass
+
     def subscribe(self, token):
         id=uuid.uuid4().hex
         self.tokens[id] = token
