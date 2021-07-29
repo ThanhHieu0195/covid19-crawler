@@ -30,7 +30,7 @@
       console.error('No registration token available. Request permission to generate one.');
     }
   }).catch((err) => {
-    console.error('An error occurred while retrieving token. ', err.message);
+    console.error('An error occurred while retrieving token. error=' + err.message);
   });
 
   function requestPermission() {
