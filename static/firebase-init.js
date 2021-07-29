@@ -2,18 +2,17 @@
   var firebaseConfig = {
     apiKey: "AIzaSyB4yFaUjh6Vab5MXA-khLWUmU_QFx0hKoU",
     authDomain: "my-project-1479109219885.firebaseapp.com",
+    databaseURL: "https://my-project-1479109219885-default-rtdb.firebaseio.com",
     projectId: "my-project-1479109219885",
     storageBucket: "my-project-1479109219885.appspot.com",
     messagingSenderId: "669259492582",
     appId: "1:669259492582:web:da87d72de3a3201523df27",
     measurementId: "G-7HBFS6N0SY"
   };
-
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
   const messaging = firebase.messaging();
-  messaging.usePublicVapidKey('[BHqAJ_w3hto0kHUXj0EIZisOrFR27c0nptQi3ogjZodaq1PR04w6CJ49rE6G_lpQyYx3hzT9M44AZ4FAv11lZ48]');
   messaging.onMessage((payload) => {
     console.log('Message received. ', payload);
     if (payload.data['action'] == "notification" && payload.data['content'] == "NEW_UPDATE") {
@@ -30,7 +29,7 @@
       console.error('No registration token available. Request permission to generate one.');
     }
   }).catch((err) => {
-    console.error('An error occurred while retrieving token. error=' + err.message);
+    console.log('An error occurred while retrieving token. error=' + err.message);
   });
 
   function requestPermission() {
@@ -41,8 +40,8 @@
       } else {
         console.log('Unable to get permission to notify.', permission);
       }
-    }).catch(function(error) {
-      console.error(error.message)
+    }).catch(function (error) {
+      console.log(error.message)
     });
   }
 })(jQuery)
