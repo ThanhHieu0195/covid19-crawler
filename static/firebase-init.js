@@ -30,6 +30,19 @@
       console.error('No registration token available. Request permission to generate one.');
     }
   }).catch((err) => {
-    console.error('An error occurred while retrieving token. ', err);
+    console.error('An error occurred while retrieving token. ', err.message);
   });
+
+  function requestPermission() {
+    console.log('Requesting permission...');
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+      } else {
+        console.log('Unable to get permission to notify.', permission);
+      }
+    }).catch(function(error) {
+      console.error(error.message)
+    });
+  }
 })(jQuery)

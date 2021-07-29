@@ -10,7 +10,8 @@ class ApiConfiguration():
 
     # public function
     def run(self, options):
-        self.app.run(host=options.host, port=options.port, debug=options.debug)
+        # self.app.run(host=options.host, port=options.port, debug=options.debug)
+        self.app.run(host=options.host, port=options.port, debug=options.debug, ssl_context=('sslkey/localhost.pem', 'sslkey/localhost-key.pem'))
 
 
     # internal methods
